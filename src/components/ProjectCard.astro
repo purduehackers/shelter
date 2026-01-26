@@ -1,5 +1,6 @@
 ---
 import type { ShelterProject } from "../types/shelter";
+import Pin from "./Pin.astro";
 
 const CMS_URL = "https://cms.purduehackers.com";
 
@@ -74,26 +75,18 @@ const stampPosition = stampPositions[(idHash >> 15) % stampPositions.length];
 
 <a
     href={`/project/${project.id}`}
-    class="group block pt-4 relative"
+    class="group block pt-4 relative [transform-style:flat]"
     style={`--rotation: ${cardRotation}`}
 >
-    <!-- Push Pin - outside article to avoid clip-path -->
+    <!-- Push Pin - before article but with isolation -->
     <div
-        class="absolute -top-0 left-1/2 -translate-x-1/2 z-20"
-        style={`transform: translateX(-50%) rotate(${cardRotation});`}
+        class="absolute inset-0 z-50 pointer-events-none [transform-style:flat]"
     >
-        <div
-            class={`w-6 h-6 rounded-full ${pinColor} shadow-md border-2 border-white`}
-        >
-            <div
-                class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-white/50"
-            >
-            </div>
-        </div>
-        <div
-            class="absolute top-5 left-1/2 -translate-x-1/2 w-1 h-2 bg-gray-400 rounded-b"
-        >
-        </div>
+        <Pin
+            seed={`${project.name}${project.description}${project.last_owner}`}
+            cssColor={pinColor}
+            topOffset={15}
+        />
     </div>
 
     <article

@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import type { ShelterProject } from '../../types/shelter';
+import Pin from '../../components/Pin.astro';
 
 export const prerender = false;
 
@@ -65,16 +66,8 @@ const imageUrl = project?.image.url.startsWith('http')
           <!-- Main card -->
           <article class="bg-white p-6 md:p-10 shadow-2xl relative">
             <!-- Push pins -->
-            <div class="absolute -top-3 left-8">
-              <div class="w-6 h-6 rounded-full bg-red-500 shadow-md border-2 border-white">
-                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-white/50"></div>
-              </div>
-            </div>
-            <div class="absolute -top-3 right-8">
-              <div class="w-6 h-6 rounded-full bg-blue-500 shadow-md border-2 border-white">
-                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-white/50"></div>
-              </div>
-            </div>
+            <Pin seed={`${project.name}${project.description}${project.last_owner}`} position="left" cssColor="bg-red-500" />
+            <Pin seed={`${project.name}${project.description}${project.last_owner}`} position="right" cssColor="bg-blue-500" hashOffset={8} />
 
             <div class="md:flex gap-8">
               <!-- Image -->
