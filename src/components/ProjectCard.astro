@@ -14,22 +14,33 @@ const imageUrl = project.image.url.startsWith("http")
     ? project.image.url
     : `${CMS_URL}${project.image.url}`;
 
-// Generate a simple hash from the project ID for deterministic randomness
-function hashCode(str: string): number {
-    let hash = 0;
+// Seeded random for deterministic results
+function seededRandom(s: number): () => number {
+    return () => {
+        s = (s * 1103515245 + 12345) & 0x7fffffff;
+        return s / 0x7fffffff;
+    };
+}
+
+function createSeed(str: string): number {
+    let hash = 5381;
     for (let i = 0; i < str.length; i++) {
-        const char = str.charCodeAt(i);
-        hash = (hash << 5) - hash + char;
-        hash = hash & hash;
+        hash = ((hash << 5) + hash + str.charCodeAt(i)) | 0;
     }
     return Math.abs(hash);
 }
 
-const idHash = hashCode(project.id);
+const seed = createSeed(
+    `${project.name}${project.description}${project.last_owner}`,
+);
+const random = seededRandom(seed);
 
-// Deterministic "random" selection based on ID hash
+// Helper to pick from array using random
+const pick = <T,>(arr: T[]): T => arr[Math.floor(random() * arr.length)];
+
+// Deterministic "random" selection
 const rotations = ["-2deg", "-1deg", "0deg", "1deg", "2deg"];
-const cardRotation = rotations[idHash % rotations.length];
+const cardRotation = pick(rotations);
 
 const pinColors = [
     "bg-red-500",
@@ -38,7 +49,7 @@ const pinColors = [
     "bg-green-500",
     "bg-pink-500",
 ];
-const pinColor = pinColors[(idHash >> 3) % pinColors.length];
+const pinColor = pick(pinColors);
 
 const stampRotations = ["-8deg", "-5deg", "-3deg", "3deg", "5deg", "8deg"];
 const stampColors = [
@@ -50,10 +61,10 @@ const stampColors = [
 const stampOpacities = ["opacity-70", "opacity-75", "opacity-80", "opacity-85"];
 const stampPositions = ["left-1", "right-1"];
 
-const stampRotation = stampRotations[(idHash >> 6) % stampRotations.length];
-const stampColor = stampColors[(idHash >> 9) % stampColors.length];
-const stampOpacity = stampOpacities[(idHash >> 12) % stampOpacities.length];
-const stampPosition = stampPositions[(idHash >> 15) % stampPositions.length];
+const stampRotation = pick(stampRotations);
+const stampColor = pick(stampColors);
+const stampOpacity = pick(stampOpacities);
+const stampPosition = pick(stampPositions);
 ---
 
 <!-- SVG filter for stamp roughness -->
