@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import type { ShelterProject } from '../../types/shelter';
 import Pin from '../../components/Pin.astro';
+import Footer from '../../components/Footer.astro';
 
 export const prerender = false;
 
@@ -122,7 +123,7 @@ const imageUrl = project?.image.url.startsWith('http')
                     Interested in adopting?
                   </p>
                   <p class="font-handwriting text-lg text-green-700">
-                    Reach out to an organizer to claim this project and give it a new home!
+                      Reach out to an organizer on <a class="ulink" href="https://discord.gg/5paFjKzdPE" target="_blank">our Discord server</a> to claim this project and give it a new home!
                   </p>
                 </div>
               </div>
@@ -136,28 +137,48 @@ const imageUrl = project?.image.url.startsWith('http')
           <div class="mt-6 text-center">
             <p class="text-amber-200 text-sm">
               Share this project:
-              <span class="font-mono bg-amber-900/50 px-2 py-1 rounded text-amber-100">
-                {Astro.url.href}
-              </span>
+              <button
+                id="copy-link-btn"
+                class="font-mono bg-amber-900/50 px-2 py-1 rounded text-amber-100 hover:bg-amber-900/70 transition-colors cursor-pointer"
+                data-url={Astro.url.href}
+              >
+                <span id="copy-link-text">{Astro.url.href}</span>
+              </button>
             </p>
           </div>
+
+          <script>
+            const btn = document.getElementById('copy-link-btn');
+            const text = document.getElementById('copy-link-text');
+            const url = btn?.dataset.url;
+
+            btn?.addEventListener('click', async () => {
+              if (!url || !text) return;
+              try {
+                await navigator.clipboard.writeText(url);
+                const original = text.textContent;
+                const width = btn.offsetWidth;
+                btn.style.width = `${width}px`;
+                text.textContent = 'Copied!';
+                setTimeout(() => {
+                  text.textContent = original;
+                  btn.style.width = '';
+                }, 1500);
+              } catch (err) {
+                console.error('Failed to copy:', err);
+              }
+            });
+          </script>
         </div>
       ) : null}
 
       <!-- Footer -->
-      <footer class="mt-16 text-center">
-        <p class="text-amber-200/70 font-handwriting text-lg">
-          A Purdue Hackers Initiative 💛
-        </p>
-      </footer>
-    </div>
+      <Footer />
+          </div>
   </div>
 </Layout>
 
 <style>
-  .font-handwriting {
-    font-family: 'Caveat', cursive;
-  }
   .cork-texture {
     background:
       radial-gradient(ellipse at 20% 30%, rgba(180, 120, 60, 0.4) 0%, transparent 50%),

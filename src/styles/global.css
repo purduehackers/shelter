@@ -1,1 +1,11 @@
+@import url("https://fonts.googleapis.com/css2?family=Marko+One&display=swap");
+
 @import "tailwindcss";
+
+@theme {
+    --font-handwriting: "Marko One", cursive;
+}
+
+.ulink {
+    @apply underline hover:decoration-2;
+}

@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import ProjectCard from "../components/ProjectCard.astro";
 import type { ShelterProject, PayloadResponse } from "../types/shelter";
+import Footer from "../components/Footer.astro";
 
 const CMS_URL = "https://cms.purduehackers.com";
 
@@ -116,19 +117,12 @@ try {
             }
 
             <!-- Footer note -->
-            <footer class="mt-16 text-center">
-                <p class="text-amber-200/70 text-sm font-handwriting text-lg">
-                    A Purdue Hackers Initiative 💛
-                </p>
-            </footer>
+            <Footer />
         </div>
     </div>
 </Layout>
 
 <style>
-    .font-handwriting {
-        font-family: "Caveat", cursive;
-    }
     .cork-texture {
         background:
             radial-gradient(
