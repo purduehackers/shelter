@@ -1,0 +1,19 @@
+README.md
+  s_9668cafcb5e76c::t_701779998e8c14 1-27,30-31,34-47,49-52,54,57-73,76,78-81,83,85,87-93,95
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.5",
+  "base_commit_sha": "d5dedb843ac9ba79445793f67401f492389ef422",
+  "prompts": {},
+  "sessions": {
+    "s_9668cafcb5e76c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019e223d-4878-7380-8be6-a7c552c12bb0",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Rayhan Noufal Arayilakath <me@rayhanadev.com>"
+    }
+  }
+}
