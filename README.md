@@ -1,46 +1,95 @@
-# Astro Starter Kit: Basics
+# Project Shelter
+
+Project Shelter is an Astro site for listing Purdue Hackers projects that need a new maintainer. It renders a corkboard-style directory of available projects and a server-rendered detail page for each one.
+
+The app fetches project data from the Purdue Hackers CMS at `https://cms.purduehackers.com/api/shelter`.
+
+## Stack
+
+- Astro 5
+- Tailwind CSS 4
+- Vercel adapter for Astro server output
+- Nix development shell
+- Bun as the primary package manager/runtime
+
+## Local Development
+
+This repository uses Nix for its build environment.
 
 ```sh
-bun create astro@latest -- --template basics
+nix develop
+bun install
+bun dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+The Astro dev server runs at [http://localhost:4321](http://localhost:4321) by default.
 
-## 🚀 Project Structure
+If you are not using Nix, the equivalent flow is:
 
-Inside of your Astro project, you'll see the following folders and files:
+```sh
+bun install
+bun dev
+```
+
+## Available Commands
+
+Run these from the project root:
+
+| Command | Purpose |
+| --- | --- |
+| `nix develop` | Enter the project shell with Bun and frontend tooling available |
+| `bun install` | Install dependencies |
+| `bun dev` | Start the local dev server |
+| `bun build` | Build the production server bundle |
+| `bun preview` | Preview the production build locally |
+| `bun astro ...` | Run Astro CLI commands |
+
+## How It Works
+
+- `/` fetches the full Shelter project list from the CMS and renders each project as a corkboard card.
+- `/project/[id]` is server-rendered and fetches a single project by ID from the CMS.
+- Project images can be absolute CMS URLs or relative asset paths; the UI normalizes both.
+- The detail page includes a shareable URL and a Discord call to action for claiming a project.
+
+## Project Structure
 
 ```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+src/
+  components/
+    Footer.astro
+    Pin.astro
+    ProjectCard.astro
+  layouts/
+    Layout.astro
+  pages/
+    index.astro
+    project/[id].astro
+  styles/
+    global.css
+  types/
+    shelter.ts
+astro.config.mjs
+shell.nix
+vercel.json
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## Deployment Notes
 
-## 🧞 Commands
+- Astro is configured with `output: "server"`.
+- The app uses `@astrojs/vercel` for deployment on Vercel.
+- `vercel.json` adds long-lived cache headers for built assets.
+- The project detail route disables prerendering with `export const prerender = false;` so project pages are fetched on demand.
 
-All commands are run from the root of the project, from a terminal:
+## Data Shape
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `bun install`             | Installs dependencies                            |
-| `bun dev`             | Starts local dev server at `localhost:4321`      |
-| `bun build`           | Build your production site to `./dist/`          |
-| `bun preview`         | Preview your build locally, before deploying     |
-| `bun astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `bun astro -- --help` | Get help using the Astro CLI                     |
+The frontend expects CMS responses to include:
 
-## 👀 Want to learn more?
+- `id`
+- `name`
+- `last_division`
+- `last_owner`
+- `description`
+- `image.url`
+- `image.alt` (optional)
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+These types live in [`src/types/shelter.ts`](/Users/ray/Projects/hackers/shelter/src/types/shelter.ts).
