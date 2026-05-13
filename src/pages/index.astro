@@ -11,7 +11,7 @@ let error: string | null = null;
 let projectHomeText: string = "Loading...";
 
 try {
-    const response = await fetch(`${CMS_URL}/api/shelter-projects?depth=1`);
+    const response = await fetch(`${CMS_URL}/api/shelter?depth=1`);
     if (!response.ok) {
         throw new Error(`Failed to fetch projects: ${response.status}`);
     }

@@ -14,7 +14,7 @@ let project: ShelterProject | null = null;
 let error: string | null = null;
 
 try {
-  const response = await fetch(`${CMS_URL}/api/shelter-projects/${id}?depth=1`);
+  const response = await fetch(`${CMS_URL}/api/shelter/${id}?depth=1`);
   if (!response.ok) {
     if (response.status === 404) {
       return Astro.redirect('/404');
