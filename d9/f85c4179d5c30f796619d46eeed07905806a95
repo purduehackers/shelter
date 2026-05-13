@@ -1,0 +1,21 @@
+src/pages/index.astro
+  s_6a8e21045eb706::t_672aad2ceb8c2a 14
+src/pages/project/[id].astro
+  s_6a8e21045eb706::t_672aad2ceb8c2a 17
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.5",
+  "base_commit_sha": "d9f85c4179d5c30f796619d46eeed07905806a95",
+  "prompts": {},
+  "sessions": {
+    "s_6a8e21045eb706": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019e222c-1603-7742-bd7f-4d8e8111d7ff",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Rayhan Noufal Arayilakath <me@rayhanadev.com>"
+    }
+  }
+}
